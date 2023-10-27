@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import com.example.cs3200firebasestarter.ui.repositories.CharacterRepository
 import com.example.cs3200firebasestarter.ui.repositories.UserRepository
 
 class SignInScreenState {
@@ -23,6 +24,7 @@ class SignInViewModel(application: Application): AndroidViewModel(application) {
         uiState.emailError = false
         uiState.passwordError = false
         uiState.errorMessage = ""
+        CharacterRepository.clearCache() // clear the cache so that nothing is on there from the previous user
         if (uiState.email.isEmpty()) {
             uiState.emailError = true
             uiState.errorMessage = "Email cannot be blank"

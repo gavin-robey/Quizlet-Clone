@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import com.example.cs3200firebasestarter.ui.repositories.CharacterRepository
 import com.example.cs3200firebasestarter.ui.repositories.UserRepository
 
 class SignUpScreenState {
@@ -29,6 +30,7 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
         uiState.passwordError = false
         uiState.passwordConfirmationError = false
         uiState.errorMessage = ""
+        CharacterRepository.clearCache() // clear previous users cache
         if (!uiState.email.contains("@")) {
             uiState.emailError = true
             uiState.errorMessage = "Email is invalid."

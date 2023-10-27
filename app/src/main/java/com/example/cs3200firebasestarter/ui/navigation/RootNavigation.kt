@@ -14,8 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import com.example.cs3200firebasestarter.ui.repositories.UserRepository
-import com.example.cs3200firebasestarter.ui.screens.*
+import com.example.cs3200firebasestarter.ui.screens.BuildCharacterScreen
+import com.example.cs3200firebasestarter.ui.screens.HomeScreen
+import com.example.cs3200firebasestarter.ui.screens.LaunchScreen
+import com.example.cs3200firebasestarter.ui.screens.SignInScreen
+import com.example.cs3200firebasestarter.ui.screens.SignUpScreen
+import com.example.cs3200firebasestarter.ui.screens.SplashScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,7 +58,6 @@ fun RootNavigation() {
                         }
                     }
                 )
-                // ...other drawer items
             }
         }
     ) {
@@ -60,7 +65,7 @@ fun RootNavigation() {
             topBar = {
                 if (currentDestination?.hierarchy?.none { it.route == Routes.launchNavigation.route || it.route == Routes.splashScreen.route } == true) {
                     TopAppBar(
-                        title = { Text(text = "My App")},
+                        title = { Text(text = "Tabletop RPG Character Sheet")},
                         navigationIcon = {
                             IconButton(onClick = {
                                 scope.launch {
@@ -77,13 +82,15 @@ fun RootNavigation() {
             },
             floatingActionButton = {
                 if (currentDestination?.hierarchy?.none { it.route == Routes.launchNavigation.route || it.route == Routes.splashScreen.route } == true){
-                    FloatingActionButton(onClick = {}) {
+                    FloatingActionButton(onClick = {
+                        navController.navigate(Routes.buildCharacter.route)
+                    }) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = "Add Item")
                     }
                 }
             },
 
-        ) {
+            ) {
 
             NavHost(
                 navController = navController,
@@ -99,6 +106,12 @@ fun RootNavigation() {
                     composable(route = Routes.home.route) { HomeScreen(navController) }
                 }
                 composable(route = Routes.splashScreen.route) { SplashScreen(navController) }
+                composable(
+                    route = "buildCharacter?id={id}", // question mark is an optional argument
+                    arguments = listOf(navArgument("id"){defaultValue = "new"})
+                ) { navBackStackEntry ->
+                    BuildCharacterScreen(navController, navBackStackEntry.arguments?.get("id").toString())
+                }
             }
         }
     }
