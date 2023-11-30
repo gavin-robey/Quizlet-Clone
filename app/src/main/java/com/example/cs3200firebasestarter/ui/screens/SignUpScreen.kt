@@ -35,27 +35,31 @@ fun SignUpScreen(navHostController: NavHostController) {
                     value = state.email,
                     onValueChange = { state.email = it },
                     placeholder = { Text("Email") },
-                    error = state.emailError
+                    error = state.emailError,
+                    title = "",
                 )
                 FormField(
                     value = state.emailConfirmation,
                     onValueChange = { state.emailConfirmation = it},
                     placeholder = { Text("Email Confirmation") },
-                    error = state.emailConfirmationError
+                    error = state.emailConfirmationError,
+                    title = "",
                 )
                 FormField(
                     value = state.password,
                     onValueChange = { state.password = it },
                     placeholder = { Text("Password") },
                     error = state.passwordError,
-                    password = true
+                    password = true,
+                    title = "",
                 )
                 FormField(
                     value = state.passwordConfirmation,
                     onValueChange = { state.passwordConfirmation = it },
                     placeholder = { Text("Password Confirmation") },
                     error = state.passwordConfirmationError,
-                    password = true
+                    password = true,
+                    title = "",
                 )
                 Row (
                     horizontalArrangement = Arrangement.End,

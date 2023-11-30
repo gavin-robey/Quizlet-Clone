@@ -13,9 +13,11 @@ class AddStudySetState {
     var term by mutableStateOf("")
     var definition by mutableStateOf("")
     var studySetName by mutableStateOf("")
+    var description by mutableStateOf("")
     var studySet = mutableStateListOf<CardData>()
     var notFinished by mutableStateOf(true)
     var saveSuccess by mutableStateOf(false)
+    var showDescription by mutableStateOf(false)
 }
 
 class AddStudySetViewModel(application: Application): AndroidViewModel(application){
@@ -24,7 +26,8 @@ class AddStudySetViewModel(application: Application): AndroidViewModel(applicati
     suspend fun addStudySet(){
         StudySetRepository.createStudySet(
             studySet = uiState.studySet,
-            studySetName = uiState.studySetName
+            studySetName = uiState.studySetName,
+            description = uiState.description ?: ""
         )
 
     }

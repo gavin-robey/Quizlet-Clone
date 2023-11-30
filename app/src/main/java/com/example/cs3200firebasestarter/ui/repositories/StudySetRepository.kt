@@ -17,6 +17,7 @@ object StudySetRepository {
 
     suspend fun createStudySet(
         studySetName : String?,
+        description : String?,
         studySet: MutableList<CardData>?
     ) : StudySetModel {
         val doc = Firebase.firestore.collection("StudySet").document()
@@ -24,6 +25,7 @@ object StudySetRepository {
             id = doc.id,
             userId = UserRepository.getCurrentUserId(),
             studySetName = studySetName,
+            description = description,
             studySet = studySet
         )
         doc.set(studySetModel).await()

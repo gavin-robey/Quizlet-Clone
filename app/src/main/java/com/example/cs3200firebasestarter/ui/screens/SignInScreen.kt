@@ -35,14 +35,16 @@ fun SignInScreen(navHostController: NavHostController) {
                     value = state.email,
                     onValueChange = { state.email = it },
                     placeholder = { Text("Email") },
-                    error = state.emailError
+                    error = state.emailError,
+                    title = "",
                 )
                 FormField(
                     value = state.password,
                     onValueChange = { state.password = it },
                     placeholder = { Text("Password") },
                     error = state.passwordError,
-                    password = true
+                    password = true,
+                    title = "",
                 )
                 Row (
                     horizontalArrangement = Arrangement.End,

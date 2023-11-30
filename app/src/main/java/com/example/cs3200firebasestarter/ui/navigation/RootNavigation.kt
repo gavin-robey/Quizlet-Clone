@@ -63,9 +63,9 @@ fun RootNavigation() {
     ) {
         Scaffold(
             topBar = {
-                if (currentDestination?.hierarchy?.none { it.route == Routes.launchNavigation.route || it.route == Routes.splashScreen.route } == true) {
+                if (currentDestination?.hierarchy?.none { it.route == Routes.launchNavigation.route || it.route == Routes.splashScreen.route || it.route == "buildCharacter?id={id}" } == true) {
                     TopAppBar(
-                        title = { Text(text = "Tabletop RPG Character Sheet")},
+                        title = { Text(text = " ")},
                         navigationIcon = {
                             IconButton(onClick = {
                                 scope.launch {
@@ -81,7 +81,9 @@ fun RootNavigation() {
                 }
             },
             floatingActionButton = {
-                if (currentDestination?.hierarchy?.none { it.route == Routes.launchNavigation.route || it.route == Routes.splashScreen.route } == true){
+                if (currentDestination?.hierarchy?.none {
+                                it.route == Routes.launchNavigation.route ||
+                                it.route == Routes.splashScreen.route || it.route == "buildCharacter?id={id}" } == true){
                     FloatingActionButton(onClick = {
                         navController.navigate(Routes.buildCharacter.route)
                     }) {
