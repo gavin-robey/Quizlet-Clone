@@ -11,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.*
@@ -22,6 +23,7 @@ import com.example.cs3200firebasestarter.ui.screens.LaunchScreen
 import com.example.cs3200firebasestarter.ui.screens.SignInScreen
 import com.example.cs3200firebasestarter.ui.screens.SignUpScreen
 import com.example.cs3200firebasestarter.ui.screens.SplashScreen
+import com.example.cs3200firebasestarter.ui.screens.TermsScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,91 +32,65 @@ fun RootNavigation() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
-    LaunchedEffect(true) {
 
-    }
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet {
-                Text("Drawer title", modifier = Modifier.padding(16.dp))
-                Divider()
-                NavigationDrawerItem(
-                    label = { Text(text = "Logout") },
-                    selected = false,
+    Scaffold(
+        floatingActionButton = {
+            if (currentDestination?.hierarchy?.none {
+                    it.route == Routes.launchNavigation.route ||
+                            it.route == Routes.splashScreen.route || it.route == "buildcharacter?id={id}"
+                            || it.route == "termsScreen?id={id}"
+                } == true) {
+                FloatingActionButton(
                     onClick = {
-                        UserRepository.logout()
-                        navController.navigate(Routes.launchNavigation.route) {
-                            popUpTo(navController.graph.id) {
-                                inclusive = true
-                            }
-                        }
-                        scope.launch {
-                            drawerState.apply {
-                                close()
-                            }
-                        }
-                    }
-                )
+                        navController.navigate(Routes.buildCharacter.route)
+                    },
+                    containerColor = Color(66, 62, 216)
+                ) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add Item")
+                }
             }
         }
     ) {
-        Scaffold(
-            topBar = {
-                if (currentDestination?.hierarchy?.none { it.route == Routes.launchNavigation.route || it.route == Routes.splashScreen.route || it.route == "buildCharacter?id={id}" } == true) {
-                    TopAppBar(
-                        title = { Text(text = " ")},
-                        navigationIcon = {
-                            IconButton(onClick = {
-                                scope.launch {
-                                    drawerState.apply {
-                                        if (isClosed) open() else close()
-                                    }
-                                }
-                            }) {
-                                Icon(Icons.Default.Menu, contentDescription = "Menu button")
-                            }
-                        }
-                    )
-                }
-            },
-            floatingActionButton = {
-                if (currentDestination?.hierarchy?.none {
-                                it.route == Routes.launchNavigation.route ||
-                                it.route == Routes.splashScreen.route || it.route == "buildCharacter?id={id}" } == true){
-                    FloatingActionButton(onClick = {
-                        navController.navigate(Routes.buildCharacter.route)
-                    }) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = "Add Item")
-                    }
-                }
-            },
 
+        NavHost(
+            navController = navController,
+            startDestination = Routes.splashScreen.route,
+            modifier = Modifier.padding(paddingValues = it)
+        ) {
+            navigation(
+                route = Routes.launchNavigation.route,
+                startDestination = Routes.launch.route
             ) {
-
-            NavHost(
-                navController = navController,
-                startDestination = Routes.splashScreen.route,
-                modifier = Modifier.padding(paddingValues = it)
+                composable(route = Routes.launch.route) { LaunchScreen(navController) }
+                composable(route = Routes.signIn.route) { SignInScreen(navController) }
+                composable(route = Routes.signUp.route) { SignUpScreen(navController) }
+            }
+            navigation(
+                route = Routes.appNavigation.route,
+                startDestination = Routes.home.route
             ) {
-                navigation(route = Routes.launchNavigation.route, startDestination = Routes.launch.route) {
-                    composable(route = Routes.launch.route) { LaunchScreen(navController) }
-                    composable(route = Routes.signIn.route) { SignInScreen(navController) }
-                    composable(route = Routes.signUp.route) { SignUpScreen(navController) }
-                }
-                navigation(route = Routes.appNavigation.route, startDestination = Routes.home.route) {
-                    composable(route = Routes.home.route) { HomeScreen(navController) }
-                }
-                composable(route = Routes.splashScreen.route) { SplashScreen(navController) }
-                composable(
-                    route = "buildCharacter?id={id}", // question mark is an optional argument
-                    arguments = listOf(navArgument("id"){defaultValue = "new"})
-                ) { navBackStackEntry ->
-                    BuildCharacterScreen(navController, navBackStackEntry.arguments?.get("id").toString())
-                }
+                composable(route = Routes.home.route) { HomeScreen(navController) }
+            }
+            composable(route = Routes.splashScreen.route) { SplashScreen(navController) }
+            composable(
+                route = "buildcharacter?id={id}", // question mark is an optional argument
+                arguments = listOf(navArgument("id") { defaultValue = "new" })
+            ) { navBackStackEntry ->
+                BuildCharacterScreen(
+                    navController,
+                    navBackStackEntry.arguments?.get("id").toString()
+                )
+            }
+            composable(
+                route = "termsScreen?id={id}", // question mark is an optional argument
+                arguments = listOf(navArgument("id") { defaultValue = "new" })
+            ) { navBackStackEntry ->
+                TermsScreen(
+                    navController,
+                    navBackStackEntry.arguments?.get("id").toString()
+                )
             }
         }
     }
+
 }

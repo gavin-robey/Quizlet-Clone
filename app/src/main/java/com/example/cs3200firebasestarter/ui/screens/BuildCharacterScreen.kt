@@ -61,6 +61,11 @@ fun BuildCharacterScreen(navHostController: NavHostController, id : String?) {
         }
     }
 
+    LaunchedEffect(id){
+        println(id)
+    }
+
+
     // add later when editing elements
 //    LaunchedEffect(true) {
 //        viewModel.setUpInitialState(id)
@@ -203,7 +208,7 @@ fun CardItem(card: CardData, onCardChange: (CardData) -> Unit) {
             modifier = Modifier.padding(horizontal = 15.dp)
         ){
             FormField(
-                value = card.front,
+                value = card.front ?: "",
                 onValueChange = {
                     onCardChange(CardData(it, card.back, false))
                 },
@@ -211,7 +216,7 @@ fun CardItem(card: CardData, onCardChange: (CardData) -> Unit) {
                 placeholder = {  },
             )
             FormField(
-                value = card.back,
+                value = card.back ?: "",
                 onValueChange = {
                     // Update the back property of the Card
                     onCardChange(CardData(card.front, it, false))

@@ -11,4 +11,5 @@ object Routes {
     val splashScreen = Screen("splashscreen")
     val home = Screen(route = "home")
     val buildCharacter = Screen("buildcharacter")
+    val termsScreen = Screen("termsScreen")
 }
