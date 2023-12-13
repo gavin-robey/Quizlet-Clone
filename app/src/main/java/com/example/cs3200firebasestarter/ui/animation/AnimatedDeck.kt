@@ -42,6 +42,7 @@ import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.cs3200firebasestarter.ui.models.CardData
+import com.example.cs3200firebasestarter.ui.theme.background
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -55,7 +56,7 @@ fun AnimatedDeck(
     onIncorrectAmountChange: (Int) -> Unit
 ) {
     val animatedOffsetX = remember { Animatable(0f) }
-    var index by remember { mutableStateOf(0) }
+    var index by remember { mutableIntStateOf(0) }
     var isFlipped by remember { mutableStateOf(false) }
     val cardList = remember { cards }
     var isCorrect by remember { mutableStateOf<Boolean?>(null) }
@@ -65,6 +66,15 @@ fun AnimatedDeck(
         onDeckSizeChange(cardList.size)
         isFlipped = cardList[index].isFlipped ?: false
         isCorrect = cardList[index].isCorrect
+    }
+
+    LaunchedEffect(true){
+        index = 0 // resets all settings on initial load
+        isFlipped = false
+        for(card in cardList){
+            card.isFlipped = null // original values are null
+            card.isCorrect = null
+        }
     }
 
     LaunchedEffect(animatedOffsetX.value) {
@@ -108,7 +118,7 @@ fun AnimatedDeck(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Color(0, 9, 45))
+                    .background(color = background)
                     .offset {
                         IntOffset(animatedOffsetX.value.roundToInt(), 0)
                     }
@@ -180,7 +190,7 @@ fun AnimatedDeck(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = Color(0, 9, 45))
+                .background(color = background)
                 .padding(30.dp)
 
         ) {

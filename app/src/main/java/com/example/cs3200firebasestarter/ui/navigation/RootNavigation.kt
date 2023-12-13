@@ -20,6 +20,7 @@ import com.example.cs3200firebasestarter.ui.repositories.UserRepository
 import com.example.cs3200firebasestarter.ui.screens.BuildCharacterScreen
 import com.example.cs3200firebasestarter.ui.screens.HomeScreen
 import com.example.cs3200firebasestarter.ui.screens.LaunchScreen
+import com.example.cs3200firebasestarter.ui.screens.ResultsScreen
 import com.example.cs3200firebasestarter.ui.screens.SignInScreen
 import com.example.cs3200firebasestarter.ui.screens.SignUpScreen
 import com.example.cs3200firebasestarter.ui.screens.SplashScreen
@@ -38,7 +39,7 @@ fun RootNavigation() {
             if (currentDestination?.hierarchy?.none {
                     it.route == Routes.launchNavigation.route ||
                             it.route == Routes.splashScreen.route || it.route == "buildcharacter?id={id}"
-                            || it.route == "termsScreen?id={id}"
+                            || it.route == "termsScreen?id={id}" || it.route == "resultsScreen?percentage={percentage}"
                 } == true) {
                 FloatingActionButton(
                     onClick = {
@@ -72,6 +73,18 @@ fun RootNavigation() {
                 composable(route = Routes.home.route) { HomeScreen(navController) }
             }
             composable(route = Routes.splashScreen.route) { SplashScreen(navController) }
+
+            // route for the results screen
+            composable(
+                route = "resultsScreen?percentage={percentage}",
+                arguments = listOf(navArgument("percentage"){ defaultValue = "new"})
+            ) {
+                navBackStackEntry ->
+                ResultsScreen(navController, navBackStackEntry.arguments?.get("percentage").toString()
+                )
+            }
+
+            // change this to buildStudySet
             composable(
                 route = "buildcharacter?id={id}", // question mark is an optional argument
                 arguments = listOf(navArgument("id") { defaultValue = "new" })
@@ -81,6 +94,8 @@ fun RootNavigation() {
                     navBackStackEntry.arguments?.get("id").toString()
                 )
             }
+
+            // Goes to the terms screen
             composable(
                 route = "termsScreen?id={id}", // question mark is an optional argument
                 arguments = listOf(navArgument("id") { defaultValue = "new" })

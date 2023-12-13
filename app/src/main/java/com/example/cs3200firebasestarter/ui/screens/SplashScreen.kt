@@ -1,15 +1,22 @@
 package com.example.cs3200firebasestarter.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.cs3200firebasestarter.ui.navigation.Routes
 import com.example.cs3200firebasestarter.ui.repositories.UserRepository
+import com.example.cs3200firebasestarter.ui.theme.button
 import kotlinx.coroutines.*
 
 @Composable
@@ -21,7 +28,7 @@ fun SplashScreen(navHostController: NavHostController) {
         }
         // wait for 3 seconds or until the login check is
         // done before navigating
-        delay(1000)
+        delay(700)
         loginStatusCheck.await()
         navHostController.navigate(
             if (UserRepository.getCurrentUserId() == null) Routes.launchNavigation.route else Routes.appNavigation.route) {
@@ -34,20 +41,22 @@ fun SplashScreen(navHostController: NavHostController) {
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = button),
         verticalArrangement = Arrangement.SpaceAround
     ) {
-        Text(
-            text = "RPG Character Sheet",
+        Box(
             modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.headlineLarge,
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = "USU-CS3200",
-            modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.headlineSmall,
-            textAlign = TextAlign.Center,
-        )
+            contentAlignment = Alignment.Center
+        ){
+            Text(
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                fontSize = 200.sp,
+                fontWeight = FontWeight.Bold,
+                text = "Q"
+            )
+        }
     }
 }

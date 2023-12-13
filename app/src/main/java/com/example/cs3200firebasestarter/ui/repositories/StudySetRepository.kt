@@ -1,7 +1,6 @@
 package com.example.cs3200firebasestarter.ui.repositories
 
 import com.example.cs3200firebasestarter.ui.models.CardData
-import com.example.cs3200firebasestarter.ui.models.CharacterModel
 import com.example.cs3200firebasestarter.ui.models.StudySetModel
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
@@ -17,6 +16,33 @@ object StudySetRepository {
         cacheInitialized = false
     }
 
+    suspend fun updateStudySet(studySet: StudySetModel){
+        Firebase.firestore
+            .collection("StudySet")
+            .document(studySet.id!!)
+            .set(studySet)
+            .await()
+
+        val oldIndex = studySetCache.indexOfFirst {
+            it.id == studySet.id
+        }
+        studySetCache[oldIndex] = studySet
+    }
+
+    suspend fun deleteSet(studySet: StudySetModel){
+        try {
+            Firebase.firestore
+                .collection("StudySet")
+                .document(studySet.id!!)
+                .delete()
+                .await()
+
+            studySetCache.removeAll { it.id == studySet.id }
+        } catch (e: Exception) {
+            println(e)
+        }
+    }
+
     suspend fun getStudySets() : List<StudySetModel>{
         if(!cacheInitialized){
             val snapshot = Firebase.firestore
@@ -24,7 +50,6 @@ object StudySetRepository {
                 .whereEqualTo("userId", UserRepository.getCurrentUserId())
                 .get()
                 .await()
-            studySetCache.clear()
             studySetCache.addAll(snapshot.toObjects())
             cacheInitialized = true
         }
@@ -44,7 +69,6 @@ object StudySetRepository {
             description = description,
             studySet = studySet
         )
-        cacheInitialized = false
         doc.set(studySetModel).await()
         studySetCache.add(studySetModel)
         return studySetModel

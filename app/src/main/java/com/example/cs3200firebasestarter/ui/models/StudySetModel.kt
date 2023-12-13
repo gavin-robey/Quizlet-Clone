@@ -5,5 +5,6 @@ data class StudySetModel(
     val userId : String? = null,
     val description: String? = null,
     val studySetName: String? = null,
-    val studySet : MutableList<CardData>? = null
+    val studySet : MutableList<CardData>? = null,
+    val accuracy : Int? = null
 )

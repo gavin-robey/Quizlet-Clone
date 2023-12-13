@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.cs3200firebasestarter.ui.theme.cardColor
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -99,7 +100,7 @@ fun CardComponent(
                         }
                     }
                 },
-            color = Color(46, 56, 86),
+            color = cardColor,
             shadowElevation = 10.dp,
             shape = RoundedCornerShape(10.dp)
         ){
@@ -113,14 +114,14 @@ fun CardComponent(
                         text = backText,
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(246, 247, 251)
+                        color = Color.White
                     )
                 } else {
                     Text(
                         text = frontText,
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(246, 247, 251)
+                        color = Color.White
                     )
                 }
             }

@@ -26,9 +26,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -39,26 +41,45 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.cs3200firebasestarter.ui.animation.AnimatedDeck
 import com.example.cs3200firebasestarter.ui.animation.ProgressBar
 import com.example.cs3200firebasestarter.ui.components.AmountsRow
+import com.example.cs3200firebasestarter.ui.navigation.Routes
 import com.example.cs3200firebasestarter.ui.viewmodels.AddStudySetViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import kotlinx.coroutines.launch
 
 @Composable
 fun TermsScreen(navHostController: NavHostController, id : String?){
     val viewModel: AddStudySetViewModel = viewModel()
     val state = viewModel.uiState
+    val scope = rememberCoroutineScope()
     var correctAmount by remember { mutableIntStateOf(0) }
     var incorrectAmount by remember { mutableIntStateOf(0) }
     var currentCard by remember { mutableIntStateOf(1) }
     var deckSize by remember { mutableIntStateOf(1) }
-
+    var percentage by remember { mutableFloatStateOf(0f) }
+    var success by remember { mutableStateOf(false) }
 
     LaunchedEffect(true){
+        state.updateStudySet = false // makes sure the database cannot be updated without the completion of the flashcards
         viewModel.setUpInitialState(id)
         state.setupComplete = true
+    }
+
+    LaunchedEffect(state.updateStudySet && state.setupComplete){
+        if(state.updateStudySet){
+            state.accuracy = (percentage * 100F).toInt()
+            scope.launch {
+                viewModel.updateStudySet(false)
+            }
+            success = true
+        }
     }
 
     if(state.setupComplete) {
@@ -120,6 +141,16 @@ fun TermsScreen(navHostController: NavHostController, id : String?){
                 onCorrectAmountChange = { newCorrectAmount -> correctAmount = newCorrectAmount },
                 onIncorrectAmountChange = { newIncorrectAmount -> incorrectAmount = newIncorrectAmount }
             )
+
+            if(correctAmount + incorrectAmount == deckSize){
+                state.updateStudySet = true
+                percentage = correctAmount.toFloat() / deckSize
+
+                // refactor this to not be terrible
+                if(success){
+                    navHostController.navigate("${Routes.resultsScreen.route}?percentage=${percentage}")
+                }
+            }
         }
     }
 }

@@ -37,6 +37,10 @@ class SignInViewModel(application: Application): AndroidViewModel(application) {
             uiState.errorMessage = "Password cannot be blank."
             return
         }
-        UserRepository.loginUser(uiState.email, uiState.password)
+        // login surrounded with try catch block to ensure valid queries
+        val login = UserRepository.loginUser(uiState.email, uiState.password)
+        if(login != null){
+            uiState.errorMessage = login
+        }
     }
 }
