@@ -5,7 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
-import com.example.cs3200firebasestarter.ui.repositories.CharacterRepository
 import com.example.cs3200firebasestarter.ui.repositories.StudySetRepository
 import com.example.cs3200firebasestarter.ui.repositories.UserRepository
 

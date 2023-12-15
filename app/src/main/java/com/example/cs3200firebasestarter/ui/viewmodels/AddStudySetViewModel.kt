@@ -6,10 +6,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.AndroidViewModel
 import com.example.cs3200firebasestarter.ui.models.CardData
-import com.example.cs3200firebasestarter.ui.repositories.CharacterRepository
 import com.example.cs3200firebasestarter.ui.repositories.StudySetRepository
 
 class AddStudySetState {
