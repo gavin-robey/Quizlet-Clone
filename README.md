@@ -102,11 +102,9 @@ Quizbit is a native Android flashcard app, written in Kotlin with Jetpack Compos
 &nbsp; &nbsp;
 
 <p align="middle">
-  <img width="310" alt="Screenshot 2024-01-04 at 12 37 01 PM" src="https://github.com/gavin-robey/Quizlet-Clone/assets/106276626/b2b70b66-987e-4f64-8584-0163dbd1d071">
-  <span>&nbsp; &nbsp; &nbsp;</span>
-  <img width="310" alt="Screenshot 2024-01-04 at 12 37 35 PM" src="https://github.com/gavin-robey/Quizlet-Clone/assets/106276626/d84c1151-23d9-4c08-aa2e-732adb9eba5e">
-  <span>&nbsp; &nbsp; &nbsp;</span>
-  <img width="310" alt="Screenshot 2024-01-04 at 12 38 11 PM" src="https://github.com/gavin-robey/Quizlet-Clone/assets/106276626/a08605e6-1864-457d-8807-864c1dd59b33">
+  <img width="358" alt="Screenshot 2024-01-04 at 12 37 01 PM" src="https://github.com/gavin-robey/Quizlet-Clone/assets/106276626/b2b70b66-987e-4f64-8584-0163dbd1d071">
+  <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+  <img width="358" alt="Screenshot 2024-01-04 at 12 38 11 PM" src="https://github.com/gavin-robey/Quizlet-Clone/assets/106276626/a08605e6-1864-457d-8807-864c1dd59b33">
 </p>
 
 &nbsp; &nbsp;
