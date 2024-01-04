@@ -87,7 +87,7 @@ Quizbit is a native Android flashcard app, written in Kotlin with Jetpack Compos
 
 &nbsp; &nbsp;
 <div align="center">
-  <img src="https://github.com/gavin-robey/Quizlet-Clone/assets/106276626/8520bd5c-a82f-4132-9844-e3ee6fe14475" alt="animationDemo" width="350">
+  <img src="https://github.com/gavin-robey/Quizlet-Clone/assets/106276626/e7e32e25-3ace-4eb9-9acd-98b08e5c3012" alt="animationDemo" width="350">
 </div>
 
 
